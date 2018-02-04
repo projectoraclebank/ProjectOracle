@@ -3,6 +3,10 @@
   <% include partials/template/head.ejs %>
   <body>
     <% include partials/template/header.ejs %>
-    <% include partials/content/form-connection.ejs %>
+    <%if(!userData){%>
+      <% include partials/content/form-connection.ejs %>
+    <%}else{%>
+      <%=userData.pseudo_client%>
+    <%}%>
   </body>
 </html>
