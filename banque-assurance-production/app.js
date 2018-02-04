@@ -9,7 +9,6 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var expressValidator=require("express-validator");
 var expressSession=require("express-session");
-app.locals.database=require("./config/database");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
