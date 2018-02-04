@@ -9,7 +9,12 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/client',function(req,res,next){
-  res.render('client',{message:""});
+  res.render('client',{message:"",userData:req.session.userData});
+});
+
+router.get('/logout',function(req,res){
+  req.session.destroy();
+  res.render('index');
 });
 
 router.post('/login',function(req,res){
@@ -22,9 +27,11 @@ router.post('/login',function(req,res){
     if(err) throw err;
     if(result.length>0)
     {
-      session.uniqueID=result.id_user_client;
-      console.log("SESSION: "+JSON.stringify(session));
-      session.userData=result;
+      // var id_client=result.id_user_client;
+      console.log('RESULT'+JSON.stringify(result));
+      session.uniqueID=result[0].id_user_client;
+      console.log("SESSION: "+JSON.stringify(session.uniqueID));
+      session.userData=result[0];
       res.redirect('/client/dashboard_client');
     }
     else{
