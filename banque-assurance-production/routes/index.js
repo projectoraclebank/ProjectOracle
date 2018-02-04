@@ -41,6 +41,27 @@ router.post('/login',function(req,res){
 
 })
 
+//** Route experimentatale pour tester les template
+router.get('/forms',function(req,res){
+  res.render('forms');
+});
+
+router.get('/index-template',function(req,res){
+  res.render('index-template');
+});
+
+router.get('/login-template',function(req,res){
+  res.render('login');
+});
+
+router.get('/register',function(req,res){
+  res.render('register');
+});
+
+router.get('/tables',function(req,res){
+  res.render('tables.ejs');
+});
+
 router.get('/client/dashboard_client',function(req,res,next){
    var userData="";
    if(session.uniqueID)
