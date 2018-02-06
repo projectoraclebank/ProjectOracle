@@ -11,9 +11,9 @@
               <div class="info d-flex align-items-center">
                 <div class="content">
                   <div class="logo">
-                    <h1>Dashboard</h1>
+                    <h1><span>BA</span><strong>$</strong>H</h1>
                   </div>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                  <p>La banque qui est toujours a votre portee.</p>
                 </div>
               </div>
             </div>
@@ -23,6 +23,7 @@
                 <div class="content">
                   <form id="login-form" method="post">
                     <div class="form-group">
+                      <label>Username</label>
                       <input id="login-username" type="text" name="loginUsername" required="" class="input-material">
                       <label for="login-username" class="label-material">User Name</label>
                     </div>
@@ -44,11 +45,6 @@
       </div>
     </div>
     <!-- Javascript files-->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="vendor/popper.js/umd/popper.min.js"> </script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
-    <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
-    <script src="js/front.js"></script>
+    <% include partials/content/jsdefaults.ejs %>
   </body>
 </html>
