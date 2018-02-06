@@ -1,2 +1,2 @@
-# ProjectOracle
+# ProjectOracle #
 Le but de ce « mini-projet » est de vous exercer de façon « ludique » à la conception d’un élément du système d’information d’une banque d'assurance, à savoir sa base de données. Les objectifs pédagogiques que vous devez atteindre sont :  L’analyse et la conception d’une application persistante  La modélisation conceptuelle d’une base de données  La production d’un schéma logique de données à partir d’une modélisation conceptuelle  L’utilisation du langage SQL  L’utilisation du langage JAVA avec JDCBC afin de développer une couche d’accès à une base de données
