@@ -1,0 +1,13 @@
+<!-- 
+User        :   admin
+Mot de passe:   12345
+<!-- Insertion type_user -->
+INSERT INTO `type_user` (`idtype_user`, `description_type_user`, `date_creation`, `date_mise_a_jour`) VALUES (NULL, 'ADMINISTRATEUR', NOW(), NOW());
+INSERT INTO `type_user` (`idtype_user`, `description_type_user`, `date_creation`, `date_mise_a_jour`) VALUES (NULL, 'EMPLOYER', NOW(), NOW());
+INSERT INTO `type_user` (`idtype_user`, `description_type_user`, `date_creation`, `date_mise_a_jour`) VALUES (NULL, 'CLIENT ', NOW(), NOW());
+
+<!-- Insertion User -->
+INSERT INTO `user` (`iduser`, `id_type_user`, `pseudo`, `password`, `date_creation`, `date_mise_a_jour`) VALUES (NULL, '1', 'admin', '8cb2237d0679ca88db6464eac60da96345513964', NOW(), NOW())
+
+<!-- Insertion Agence -->
+INSERT INTO `agence` (`idagence`, `type_agence`, `tel_agence`, `adresse_agence`) VALUES (NULL, 'SUCCURSALE', '', '')
