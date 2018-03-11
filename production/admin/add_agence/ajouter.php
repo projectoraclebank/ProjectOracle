@@ -50,7 +50,7 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
         <div id="wrapper">
             <!--BEGIN SIDEBAR MENU-->
             <?php
-                include('../include/sidebar_include.html');
+                include('../include/sidebar_include.php');
             ?>
             <!--END SIDEBAR MENU-->
             <!--BEGIN CHAT FORM-->
@@ -187,55 +187,8 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                             </div>
                                             <div class="panel-body pan">
                                             <?php
-                                                if(isset($_POST["save_agence"])){
-                                                    if(!empty($_POST["nom_agence"]) && !empty($_POST["phone_agence"]) && !empty($_POST["adresse_agence"]) && $_POST["type_agence"] != "Type Agence"){
-                                                        //nom_agence phone_agence type_agence adresse_agence save_agence
-                                                        $nom_agence = strip_tags(utf8_encode(htmlspecialchars(strtoupper($_POST["nom_agence"]))));
-                                                        $tel_agence = strip_tags(utf8_encode(htmlspecialchars($_POST["phone_agence"])));
-                                                        $adresse_agence = strip_tags(utf8_encode(htmlspecialchars($_POST["adresse_agence"])));
-                                                        $type_agence = strip_tags(utf8_encode(htmlspecialchars($_POST["type_agence"])));
-                                                        //actif_agence : 0 , Inactif
-                                                        //actif_agence : 1 , Actif
-                                                        
-                                                        $save_info_agence = "INSERT INTO `agence` (`idagence`, `type_agence`, `nom_agence`, `tel_agence`, `adresse_agence`, `actif_agence`) VALUES ('', '$type_agence', '$nom_agence', '$tel_agence', '$adresse_agence', '0')";
-                                                        if(mysqli_query($connexion, $save_info_agence)){
-                                                            if (!mysqli_commit($connexion)){
-                                                                //erreur commit 
-                                                                ?>
-                                                                <div class="alert alert-warning alert-dismissable">
-                                                                    <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button>
-                                                                        <strong>Alerte!</strong> Vérifier vos informations et essayer à nouveau.
-                                                                </div>
-                                                                <?php
-                                                            }else{
-                                                                ?>
-                                                                <div class="alert alert-success alert-dismissable">
-                                                                    <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button>
-                                                                        <strong>Success!</strong> Agence ajouter avec succès.
-                                                                </div>
-                                                                <?php
-                                                            }
-                                                            
-                                                        }else{
-                                                            //erreur d'insertion
-                                                            ?>
-                                                            <div class="alert alert-warning alert-dismissable">
-                                                                <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button>
-                                                                    <strong>Alerte!</strong> Erreur insertion, essayer à nouveau.
-                                                            </div>
-                                                            <?php
-                                                        }
-                                                        //echo mysqli_error($connexion);
-                                                    }else{
-                                                        //champs vides
-                                                        ?>
-                                                        <div class="alert alert-warning alert-dismissable">
-                                                            <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button>
-                                                            <strong>Alerte!</strong> vos champs sont vides.
-                                                        </div>
-                                                        <?php
-                                                    }
-                                                }
+                                                $ext = "php";
+                                                include("function_add.".$ext);
                                             ?>
                                                 <form method="post">
                                                     <div class="form-body pal">
@@ -280,17 +233,36 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                         <div id="change-transitions" class="row">
                                             <div class="col-md-4">
                                                 <div class="box-placeholder">
-                                                    <a href="#"  class="btn btn-info btn-block">Liste Employer</a>
+                                                    <a href="../add_employer/"  class="btn btn-success btn-block">Ajouter Employer</a>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="box-placeholder">
-                                                    <a href="../liste_agence/"  class="btn btn-info btn-block">Liste Agence</a>
+                                                    <a href="../add_agence/"  class="btn btn-success btn-block">Ajouter Agence</a>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="box-placeholder">
-                                                    <a href="#"  class="btn btn-info btn-block">Liste Fonction</a>
+                                                    <a href="../fonction/"  class="btn btn-success btn-block">Ajouter Fonction</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div id="change-transitions" class="row">
+                                            <div class="col-md-4">
+                                                <div class="box-placeholder">
+                                                    <a href="../employer/"  class="btn btn-info btn-block">Liste Employer</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="box-placeholder">
+                                                    <a href="../agence/"  class="btn btn-info btn-block">Liste Agence</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="box-placeholder">
+                                                    <a href="../fonction/"  class="btn btn-info btn-block">Liste Fonction</a>
                                                 </div>
                                             </div>
                                         </div>

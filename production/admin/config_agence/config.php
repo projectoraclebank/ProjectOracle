@@ -52,7 +52,7 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
         <div id="wrapper">
             <!--BEGIN SIDEBAR MENU-->
             <?php
-                include('../include/sidebar_include.html');
+                include('../include/sidebar_include.php');
             ?>
             <!--END SIDEBAR MENU-->
             <!--BEGIN CHAT FORM-->
@@ -135,62 +135,131 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                             <div id="alert-tab" class="tab-pane fade in active">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                    <div class="panel panel-blue">
-                                        <div class="panel-heading">Modifier Agence</div>
-                                            <div class="panel-body">
-                                            <?php
-//debut update information Succursale     
-                                            $ext= "php"; 
-                                            include("update_info_agence.".$ext);          
-// fin update information Succursale                                                  
-                                            ?>
-                                                <table class="table table-hover table-bordered">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Type</th>
-                                                        <th>Nom</th>
-                                                        <th>Téléphone</th>
-                                                        <th>Adresse</th>
-                                                        <th>Réglage</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
+                                        <div class="panel panel-blue">
+                                            <div class="panel-heading">Modifier Agence</div>
+                                                <div class="panel-body">
                                                     <?php
-                                                        $requete_liste_agence="SELECT * FROM agence WHERE sha1(idagence) ='$selected_agence'";
-                                                        $result_liste_agence=mysqli_query($connexion, $requete_liste_agence);
-                                                        $count_l_agence=mysqli_num_rows($result_liste_agence);
-                                                        if($count_l_agence>0 && $count_l_agence==1){
-                                                            while($data_liste_agence=mysqli_fetch_assoc($result_liste_agence)){
-                                                                if($data_liste_agence['actif_agence'] == 0){
-                                                                    ?>
-                                                                    <form method="post">
-                                                                    <tr class="warning">
-                                                                        <td><?php echo utf8_encode($data_liste_agence['type_agence']);?></td>
-                                                                        <td><input type="text" name="nom_agence" placeholder="<?php echo utf8_encode($data_liste_agence['nom_agence']);?>"/></td>
-                                                                        <td><input type="text" name="tel_agence" placeholder="<?php echo $data_liste_agence['tel_agence'];?>"/></td>
-                                                                        <td><input type="text" name="adresse_agence" placeholder="<?php echo utf8_encode($data_liste_agence['adresse_agence']);?>"/></td>
-                                                                        <td><button type="submit" name="btn_update_agence"><i class="icon fa fa-edit"></button></td> 
-                                                                    </tr>
-                                                                    </form>
-                                                                    <?php
-                                                                }else{
-                                                                    ?>
-                                                                    <form method="post">
-                                                                    <tr class="success">
-                                                                    <td><?php echo utf8_encode($data_liste_agence['type_agence']);?></td>
-                                                                        <td><input type="text" name="nom_agence" placeholder="<?php echo utf8_encode($data_liste_agence['nom_agence']);?>"/></td>
-                                                                        <td><input type="text" name="tel_agence" placeholder="<?php echo $data_liste_agence['tel_agence'];?>"/></td>
-                                                                        <td><input type="text" name="adresse_agence" placeholder="<?php echo utf8_encode($data_liste_agence['adresse_agence']);?>"/></td>
-                                                                        <td><button type="submit" name="btn_update_agence"><i class="icon fa fa-edit"></button></td> 
-                                                                    </tr>
-                                                                    </form>
-                                                                    <?php
-                                                                }
-                                                            }
-                                                        }   
+        //debut update information Succursale     
+                                                    $ext= "php"; 
+                                                    include("update_info_agence.".$ext);          
+        // fin update information Succursale                                                  
                                                     ?>
-                                                    </tbody>
-                                                </table>
+                                                    <table class="table table-hover table-bordered">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Type</th>
+                                                            <th>Nom</th>
+                                                            <th>Téléphone</th>
+                                                            <th>Adresse</th>
+                                                            <th>Réglage</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <?php
+                                                            $requete_liste_agence="SELECT * FROM agence WHERE sha1(idagence) ='$selected_agence'";
+                                                            $result_liste_agence=mysqli_query($connexion, $requete_liste_agence);
+                                                            $count_l_agence=mysqli_num_rows($result_liste_agence);
+                                                            if($count_l_agence>0 && $count_l_agence==1){
+                                                                while($data_liste_agence=mysqli_fetch_assoc($result_liste_agence)){
+                                                                    if($data_liste_agence['actif_agence'] == 0){
+                                                                        ?>
+                                                                        <form method="post">
+                                                                        <tr class="warning">
+                                                                            <td><?php echo utf8_encode($data_liste_agence['type_agence']);?></td>
+                                                                            <td><input type="text" name="nom_agence" placeholder="<?php echo utf8_encode($data_liste_agence['nom_agence']);?>"/></td>
+                                                                            <td><input type="text" name="tel_agence" placeholder="<?php echo $data_liste_agence['tel_agence'];?>"/></td>
+                                                                            <td><input type="text" name="adresse_agence" placeholder="<?php echo utf8_encode($data_liste_agence['adresse_agence']);?>"/></td>
+                                                                            <td><button type="submit" name="btn_update_agence"><i class="icon fa fa-edit"></button></td> 
+                                                                        </tr>
+                                                                        </form>
+                                                                        <?php
+                                                                    }else{
+                                                                        ?>
+                                                                        <form method="post">
+                                                                        <tr class="success">
+                                                                        <td><?php echo utf8_encode($data_liste_agence['type_agence']);?></td>
+                                                                            <td><input type="text" name="nom_agence" placeholder="<?php echo utf8_encode($data_liste_agence['nom_agence']);?>"/></td>
+                                                                            <td><input type="text" name="tel_agence" placeholder="<?php echo $data_liste_agence['tel_agence'];?>"/></td>
+                                                                            <td><input type="text" name="adresse_agence" placeholder="<?php echo utf8_encode($data_liste_agence['adresse_agence']);?>"/></td>
+                                                                            <td><button type="submit" name="btn_update_agence"><i class="icon fa fa-edit"></button></td> 
+                                                                        </tr>
+                                                                        </form>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                            }   
+                                                        ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                        <div class="panel panel-blue">
+                                            <div class="panel-heading">Employer Agence</div>
+                                                <div class="panel-body">
+                                                    <table class="table table-hover table-bordered">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Code</th>
+                                                                <th>Nom</th>
+                                                                <th>Fonction</th>
+                                                                <th>Agence</th>
+                                                                <th>Voir</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php
+                                                                    $requete_liste_agence="SELECT * FROM employe_fonction INNER JOIN employe ON employe_fonction.emp_fonc_id = employe.idemploye INNER JOIN fonction ON employe_fonction.fonction_id = fonction.idfonction INNER JOIN agence ON employe.id_succursale = agence.idagence WHERE sha1(agence.idagence) = '$selected_agence'";
+                                                                    $result_liste_agence=mysqli_query($connexion, $requete_liste_agence);
+                                                                    $count_l_agence=mysqli_num_rows($result_liste_agence);
+                                                                    if($count_l_agence>0){
+                                                                        while($data_liste_agence=mysqli_fetch_assoc($result_liste_agence)){
+                                                                            if($data_liste_agence['actif_emp'] == 0){
+                                                                                ?>
+                                                                                <tr class="warning">
+                                                                                    <td><?php echo utf8_encode($data_liste_agence['code_emp']);?></td>
+                                                                                    <td><?php echo utf8_encode($data_liste_agence['nom_emp']." ".$data_liste_agence['prenom_emp']);?></td>
+                                                                                    <td><?php echo $data_liste_agence['titre_fonction'];?></td>
+                                                                                    <td><?php echo utf8_encode($data_liste_agence['nom_agence']);?></td>
+                                                                                    <td><a href="../fiche_employer/<?php echo sha1($data_liste_agence['idemploye']);?>"><i class="icon fa fa-edit"></i><i class="fa fa-cog"></i></a></td> 
+                                                                                </tr>
+                                                                                <?php
+                                                                            }else{
+                                                                                ?>
+                                                                                <tr class="success">
+                                                                                    <td><?php echo utf8_encode($data_liste_agence['code_emp']);?></td>
+                                                                                    <td><?php echo utf8_encode($data_liste_agence['nom_emp']." ".$data_liste_agence['prenom_emp']);?></td>
+                                                                                    <td><?php echo $data_liste_agence['titre_fonction'];?></td>
+                                                                                    <td><?php echo utf8_encode($data_liste_agence['nom_agence']);?></td>
+                                                                                    <td><a href="../fiche_employer/<?php echo sha1($data_liste_agence['idemploye']);?>"><i class="icon fa fa-edit"></i><i class="fa fa-cog"></i></a></td> 
+                                                                                </tr>
+                                                                                <?php
+                                                                            }
+                                                                        }
+                                                                    }   
+                                                                ?>
+                                                            </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                        <div id="change-transitions" class="row">
+                                            <div class="col-md-4">
+                                                <div class="box-placeholder">
+                                                    <a href="../add_employer/"  class="btn btn-success btn-block">Ajouter Employer</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="box-placeholder">
+                                                    <a href="../add_agence/"  class="btn btn-success btn-block">Ajouter Agence</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="box-placeholder">
+                                                    <a href="../fonction/"  class="btn btn-success btn-block">Ajouter Fonction</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -198,21 +267,27 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                         <div id="change-transitions" class="row">
                                             <div class="col-md-4">
                                                 <div class="box-placeholder">
-                                                    <a href="#"  class="btn btn-info btn-block">Liste Employer</a>
+                                                    <a href="../employer/"  class="btn btn-info btn-block">Liste Employer</a>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="box-placeholder">
-                                                    <a href="#"  class="btn btn-info btn-block">Liste Agence</a>
+                                                    <a href="../agence/"  class="btn btn-info btn-block">Liste Agence</a>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="box-placeholder">
-                                                    <a href="#"  class="btn btn-info btn-block">Liste Fonction</a>
+                                                    <a href="../fonction/"  class="btn btn-info btn-block">Liste Fonction</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    </div>                                
+                                </div>
+                                    
+                                    <hr />
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
