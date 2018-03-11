@@ -50,7 +50,7 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
         <div id="wrapper">
             <!--BEGIN SIDEBAR MENU-->
             <?php
-                include('../include/sidebar_include.html');
+                include('../include/sidebar_include.php');
             ?>
             <!--END SIDEBAR MENU-->
             <!--BEGIN CHAT FORM-->
@@ -134,24 +134,6 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-md-3">
-                                <div class="panel visit db mbm">
-                                    <div class="panel-body">
-                                        <p class="icon">
-                                            <i class="icon fa fa-group"></i>
-                                        </p>
-                                        <h4 class="value">
-                                            <span>128</span></h4>
-                                        <p class="description">
-                                            Visitor description</p>
-                                        <div class="progress progress-sm mbn">
-                                            <div role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
-                                                style="width: 70%;" class="progress-bar progress-bar-warning">
-                                                <span class="sr-only">70% Complete (success)</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div id="generalTabContent" class="tab-content responsive">
                             <div id="alert-tab" class="tab-pane fade in active">
@@ -170,7 +152,7 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="box-placeholder">
-                                                    <a href="../add_fonction/"  class="btn btn-success btn-block">Ajouter Fonction</a>
+                                                    <a href="../fonction/"  class="btn btn-success btn-block">Ajouter Fonction</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -179,26 +161,85 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                         <div id="change-transitions" class="row">
                                             <div class="col-md-4">
                                                 <div class="box-placeholder">
-                                                    <a href="../liste_employer/"  class="btn btn-info btn-block">Liste Employer</a>
+                                                    <a href="../employer/"  class="btn btn-info btn-block">Liste Employer</a>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="box-placeholder">
-                                                    <a href="../liste_agence/"  class="btn btn-info btn-block">Liste Agence</a>
+                                                    <a href="../agence/"  class="btn btn-info btn-block">Liste Agence</a>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="box-placeholder">
-                                                    <a href="../liste_fonction/"  class="btn btn-info btn-block">Liste Fonction</a>
+                                                    <a href="../fonction/"  class="btn btn-info btn-block">Liste Fonction</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!--- -->
+                                    <div class="col-lg-6">
+                                        <div class="portlet box">
+                                            <div class="portlet-header">
+                                                <div class="caption">Transaction</div>
+                                                <div class="tools"><i class="fa fa-chevron-up"></i><i data-toggle="modal" data-target="#modal-config" class="fa fa-cog"></i><i class="fa fa-refresh"></i><i class="fa fa-times"></i></div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div id="pie-chart" style="width: 100%; height:300px"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">    
+                                        <div class="portlet box">
+                                            <div class="portlet-header">
+                                                <div class="caption">Activités</div>
+                                                <div class="tools"><i class="fa fa-chevron-up"></i><i data-toggle="modal" data-target="#modal-config" class="fa fa-cog"></i><i class="fa fa-refresh"></i><i class="fa fa-times"></i></div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div id="pie-with-gradient-fill" style="width: 100%; height:300px"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">    
+                                        <div class="portlet box">
+                                            <div class="portlet-header">
+                                                <div class="caption">Carte</div>
+                                                <div class="tools"><i class="fa fa-chevron-up"></i><i data-toggle="modal" data-target="#modal-config" class="fa fa-cog"></i><i class="fa fa-refresh"></i><i class="fa fa-times"></i></div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div id="pie-with-legend" style="width: 100%; height:300px"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">    
+                                        <div class="portlet box">
+                                            <div class="portlet-header">
+                                                <div class="caption">Guichet</div>
+                                                <div class="tools"><i class="fa fa-chevron-up"></i><i data-toggle="modal" data-target="#modal-config" class="fa fa-cog"></i><i class="fa fa-refresh"></i><i class="fa fa-times"></i></div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div id="semi-circle-donut" style="width: 100%; height:300px"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="page-content">
+                    <div id="tab-general">
+                        <div class="row mbl">
+                            <div class="col-lg-12">
+                                <div class="col-md-12">
+                                    <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!--END CONTENT-->
                 <!--BEGIN FOOTER-->
                 <?php

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 04, 2018 at 04:12 PM
+-- Generation Time: Mar 11, 2018 at 02:10 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 7.0.13
 
@@ -34,6 +34,15 @@ CREATE TABLE `adresse` (
   `date_creation` datetime NOT NULL,
   `date_mise_a_jour` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `adresse`
+--
+
+INSERT INTO `adresse` (`idadresse`, `id_type_adresse`, `description_adresse`, `nom_proprietaire_id`, `date_creation`, `date_mise_a_jour`) VALUES
+(13, 1, '43, marinai 12', 29, '2018-03-08 11:33:36', '2018-03-08 11:33:36'),
+(14, 1, '43, mariani 12', 30, '2018-03-08 11:58:36', '2018-03-08 11:58:36'),
+(15, 1, '43, Mariani 12', 31, '2018-03-08 12:01:31', '2018-03-08 12:01:31');
 
 -- --------------------------------------------------------
 
@@ -67,11 +76,11 @@ INSERT INTO `agence` (`idagence`, `type_agence`, `nom_agence`, `tel_agence`, `ad
 CREATE TABLE `carte` (
   `idcarte` int(11) NOT NULL,
   `id_compte` int(11) NOT NULL,
-  `code_secret` int(4) NOT NULL,
+  `code_secret` varchar(2000) NOT NULL,
+  `type_carte` int(11) NOT NULL,
   `date_fabrication` date NOT NULL,
-  `date_mise_en_circulation` date NOT NULL,
-  `type_carte` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `date_mise_circulation` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -91,7 +100,6 @@ CREATE TABLE `client` (
   `date_creation` datetime NOT NULL,
   `date_mise_a_jour` datetime NOT NULL,
   `id_user_client` int(11) NOT NULL,
-  `type_user_client_id` int(11) NOT NULL,
   `id_succursale` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -119,14 +127,14 @@ CREATE TABLE `compte` (
 --
 
 CREATE TABLE `credit` (
-  `idcredit` int(10) UNSIGNED NOT NULL,
-  `idcompte` int(11) DEFAULT NULL,
-  `idremboursement` int(11) DEFAULT NULL,
-  `id_type_credit` int(11) DEFAULT NULL,
-  `montant_emprunt` double DEFAULT NULL,
-  `interet` double DEFAULT NULL,
-  `date_creation` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idcredit` int(11) NOT NULL,
+  `compte_id` int(11) NOT NULL,
+  `remboursement_id` int(11) NOT NULL,
+  `type_credit_id` int(11) NOT NULL,
+  `montant_emprunt` double NOT NULL,
+  `interet` double NOT NULL,
+  `date_creation` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -136,10 +144,21 @@ CREATE TABLE `credit` (
 
 CREATE TABLE `email` (
   `idemail` int(11) NOT NULL,
+  `id_type_mail` int(11) NOT NULL,
   `nom_proprietaire_id` int(11) DEFAULT NULL,
+  `email_emp` varchar(500) NOT NULL,
   `date_creation` datetime DEFAULT NULL,
   `date_mise_a_jour` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `email`
+--
+
+INSERT INTO `email` (`idemail`, `id_type_mail`, `nom_proprietaire_id`, `email_emp`, `date_creation`, `date_mise_a_jour`) VALUES
+(14, 29, 1, 'benoit@gmail.com', '2018-03-08 11:33:36', '2018-03-08 11:33:36'),
+(15, 30, 1, 'djason@gmail.com', '2018-03-08 11:58:36', '2018-03-08 11:58:36'),
+(16, 31, 1, 'jacqueline@gmail.com', '2018-03-08 12:01:31', '2018-03-08 12:01:31');
 
 -- --------------------------------------------------------
 
@@ -149,18 +168,29 @@ CREATE TABLE `email` (
 
 CREATE TABLE `employe` (
   `idemploye` int(11) NOT NULL,
+  `code_emp` varchar(100) NOT NULL,
   `nom_emp` varchar(45) NOT NULL,
   `prenom_emp` varchar(45) NOT NULL,
   `sexe_emp` varchar(7) NOT NULL,
+  `naissance_emp` date NOT NULL,
   `civilite_emp` varchar(6) NOT NULL,
-  `nif_emp` int(10) NOT NULL,
-  `cin_emp` int(15) DEFAULT NULL,
+  `nif_emp` varchar(50) NOT NULL,
+  `cin_emp` varchar(50) NOT NULL,
   `user_emp_id` int(11) NOT NULL,
   `type_user_id` int(11) NOT NULL,
   `date_creation` datetime NOT NULL,
   `date_mise_a_jour` datetime DEFAULT NULL,
   `id_succursale` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employe`
+--
+
+INSERT INTO `employe` (`idemploye`, `code_emp`, `nom_emp`, `prenom_emp`, `sexe_emp`, `naissance_emp`, `civilite_emp`, `nif_emp`, `cin_emp`, `user_emp_id`, `type_user_id`, `date_creation`, `date_mise_a_jour`, `id_succursale`) VALUES
+(16, 'EMP-BEN-SCH-29', 'BENOIT', 'Schneider', 'Homme', '1993-12-01', 'Mr.', '8389-09-09', '01-90-99-0998', 29, 2, '2018-03-08 11:33:36', '2018-03-08 11:33:36', 1),
+(17, 'EMP-SYL-DJA-30', 'SYLVAINCE', 'Djason Irvinton', 'Homme', '1994-05-16', 'Mr.', '009-12-234', '009-02-00I', 30, 2, '2018-03-08 11:58:36', '2018-03-08 11:58:36', 2),
+(18, 'EMP-SYL-JAC-31', 'SYLVAINCE', 'Jacqueline', 'Femme', '1970-12-14', 'Me.', '12-09-0007', '009-34-008', 31, 2, '2018-03-08 12:01:31', '2018-03-08 12:01:31', 1);
 
 -- --------------------------------------------------------
 
@@ -172,8 +202,18 @@ CREATE TABLE `employe_fonction` (
   `idemploye_fonction` int(11) NOT NULL,
   `emp_fonc_id` int(11) DEFAULT NULL,
   `fonction_id` int(11) DEFAULT NULL,
+  `actif_emp` tinyint(1) NOT NULL,
   `date_creation` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employe_fonction`
+--
+
+INSERT INTO `employe_fonction` (`idemploye_fonction`, `emp_fonc_id`, `fonction_id`, `actif_emp`, `date_creation`) VALUES
+(13, 16, 1, 1, '2018-03-08 11:33:36'),
+(14, 17, 2, 1, '2018-03-08 11:58:36'),
+(15, 18, 3, 1, '2018-03-08 12:01:31');
 
 -- --------------------------------------------------------
 
@@ -195,7 +235,8 @@ CREATE TABLE `fonction` (
 INSERT INTO `fonction` (`idfonction`, `titre_fonction`, `desc_fonction`, `salaire_fonction`) VALUES
 (1, 'DIRECTEUR ', 'Directeur General', 63000),
 (2, 'SECRETAIRE ADJOINT', 'SECRETAIRE ADJOINT', 50500),
-(3, 'SECRETAIRE GENERAL', 'SECRETAIRE GENERAL', 57500);
+(3, 'SECRETAIRE GENERAL', 'SECRETAIRE GENERAL', 57500),
+(4, 'SERVICE CLIENTÃƒÂ¨LE', 'service client', 7500);
 
 -- --------------------------------------------------------
 
@@ -217,7 +258,16 @@ CREATE TABLE `login_hystoric` (
 INSERT INTO `login_hystoric` (`id_login`, `user_login`, `ip_login`, `date_login`) VALUES
 (5, 1, '127.0.0.1', '2018-03-05 00:00:00'),
 (6, 1, '127.0.0.1', '2018-03-04 04:13:56'),
-(7, 1, '192.168.1.12', '2018-03-04 15:10:13');
+(7, 1, '192.168.1.12', '2018-03-04 15:10:13'),
+(8, 1, '127.0.0.1', '2018-03-06 07:27:17'),
+(9, 1, '127.0.0.1', '2018-03-07 07:22:37'),
+(10, 1, '127.0.0.1', '2018-03-07 14:22:10'),
+(11, 1, '127.0.0.1', '2018-03-08 04:06:22'),
+(12, 1, '127.0.0.1', '2018-03-08 21:28:57'),
+(13, 1, '127.0.0.1', '2018-03-08 23:20:26'),
+(14, 1, '127.0.0.1', '2018-03-08 23:28:56'),
+(15, 1, '127.0.0.1', '2018-03-09 13:20:53'),
+(16, 1, '127.0.0.1', '2018-03-11 13:54:34');
 
 -- --------------------------------------------------------
 
@@ -230,20 +280,6 @@ CREATE TABLE `remboursement` (
   `type_remboursement` varchar(45) DEFAULT NULL,
   `duree_remboursement` int(5) DEFAULT NULL,
   `remboursementcol` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `resiliation`
---
-
-CREATE TABLE `resiliation` (
-  `idresiliation` int(11) NOT NULL,
-  `compte_id` int(11) NOT NULL,
-  `proprietaire_id` int(11) NOT NULL,
-  `type_proprietaire_id` int(11) NOT NULL,
-  `date_creation` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -273,6 +309,15 @@ CREATE TABLE `telephone` (
   `date_mise_a_jour` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `telephone`
+--
+
+INSERT INTO `telephone` (`idtelephone`, `id_type_telephone`, `id_proprietaire`, `numero_telephone`, `date_creation`, `date_mise_a_jour`) VALUES
+(13, 1, 29, 37562575, '2018-03-08 11:33:36', '2018-03-08 11:33:36'),
+(14, 1, 30, 31281904, '2018-03-08 11:58:36', '2018-03-08 11:58:36'),
+(15, 1, 31, 34221964, '2018-03-08 12:01:31', '2018-03-08 12:01:31');
+
 -- --------------------------------------------------------
 
 --
@@ -281,14 +326,15 @@ CREATE TABLE `telephone` (
 
 CREATE TABLE `transaction` (
   `idtransaction` int(11) NOT NULL,
-  `type_transaction_id` int(11) DEFAULT NULL,
-  `montant_transaction` double NOT NULL,
-  `compte_donneur_id` int(9) DEFAULT NULL,
-  `compte_beneficiaire_id` int(9) DEFAULT NULL,
-  `information_textuelle` varchar(255) DEFAULT NULL,
-  `message_communication` longtext,
-  `date_creation` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `type_transaction_id` int(11) NOT NULL,
+  `compte_donneur_id` int(11) NOT NULL,
+  `compte_beneficiare_id` int(11) NOT NULL,
+  `information_textuel` varchar(2000) NOT NULL,
+  `message_communication` varchar(2000) NOT NULL,
+  `date_creation` datetime NOT NULL,
+  `employer_id` int(11) NOT NULL,
+  `montant_transaction` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -301,6 +347,14 @@ CREATE TABLE `types_informations` (
   `description_type_infos` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `types_informations`
+--
+
+INSERT INTO `types_informations` (`idtypes_informations`, `description_type_infos`) VALUES
+(1, 'PRINCIPALE'),
+(2, 'SECONDAIRE');
+
 -- --------------------------------------------------------
 
 --
@@ -311,6 +365,14 @@ CREATE TABLE `type_carte` (
   `description_type_carte` varchar(45) DEFAULT NULL,
   `id_type_carte` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `type_carte`
+--
+
+INSERT INTO `type_carte` (`description_type_carte`, `id_type_carte`) VALUES
+('VISA', 1),
+('MASTERCARD', 2);
 
 -- --------------------------------------------------------
 
@@ -325,6 +387,14 @@ CREATE TABLE `type_compte` (
   `date_creation` datetime NOT NULL,
   `date_mise_a_jour` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `type_compte`
+--
+
+INSERT INTO `type_compte` (`idtype_compte`, `desc_type_compte`, `plafond_semaine`, `date_creation`, `date_mise_a_jour`) VALUES
+(1, 'COURANT', '50000', '2018-03-09 00:00:00', '2018-03-09 00:00:00'),
+(2, 'EPARGNE', '50000', '2018-03-09 00:00:00', '2018-03-09 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -393,7 +463,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`iduser`, `id_type_user`, `pseudo`, `password`, `actif_user`, `date_creation`, `date_mise_a_jour`) VALUES
-(1, 1, 'admin', '8cb2237d0679ca88db6464eac60da96345513964', 1, '2018-03-03 04:49:00', '2018-03-03 04:49:00');
+(1, 1, 'admin', '8cb2237d0679ca88db6464eac60da96345513964', 1, '2018-03-03 04:49:00', '2018-03-03 04:49:00'),
+(29, 2, 'ingbenoit', '8cb2237d0679ca88db6464eac60da96345513964', 1, '2018-03-08 11:33:36', '2018-03-08 11:33:36'),
+(30, 2, 'ingdjason', '8cb2237d0679ca88db6464eac60da96345513964', 1, '2018-03-08 11:58:36', '2018-03-08 11:58:36'),
+(31, 2, 'jacqueline', '8cb2237d0679ca88db6464eac60da96345513964', 1, '2018-03-08 12:01:31', '2018-03-08 12:01:31');
 
 --
 -- Indexes for dumped tables
@@ -419,9 +492,8 @@ ALTER TABLE `agence`
 --
 ALTER TABLE `carte`
   ADD PRIMARY KEY (`idcarte`),
-  ADD UNIQUE KEY `idcarte_UNIQUE` (`idcarte`),
-  ADD KEY `fk_carte_compte_idx` (`id_compte`),
-  ADD KEY `fk_carte_type_carte_idx` (`type_carte`);
+  ADD KEY `id_compte` (`id_compte`),
+  ADD KEY `type_carte` (`type_carte`);
 
 --
 -- Indexes for table `client`
@@ -429,7 +501,6 @@ ALTER TABLE `carte`
 ALTER TABLE `client`
   ADD PRIMARY KEY (`idclient`),
   ADD UNIQUE KEY `id_user_client_UNIQUE` (`id_user_client`),
-  ADD UNIQUE KEY `type_user_client_id_UNIQUE` (`type_user_client_id`),
   ADD KEY `fk_client_agence_idx` (`id_succursale`);
 
 --
@@ -440,16 +511,17 @@ ALTER TABLE `compte`
   ADD UNIQUE KEY `idcompte_UNIQUE` (`idcompte`),
   ADD UNIQUE KEY `iban_UNIQUE` (`iban`),
   ADD KEY `fk_compte_employe_idx` (`id_employe`),
-  ADD KEY `fk_compte_type_compte_idx` (`type_compte_id`);
+  ADD KEY `fk_compte_type_compte_idx` (`type_compte_id`),
+  ADD KEY `id_proprietaire` (`id_proprietaire`);
 
 --
 -- Indexes for table `credit`
 --
 ALTER TABLE `credit`
   ADD PRIMARY KEY (`idcredit`),
-  ADD KEY `fk_credit_compte_idx` (`idcompte`),
-  ADD KEY `fk_credit_type_credit_idx` (`id_type_credit`),
-  ADD KEY `fk_credit_remboursement_idx` (`idremboursement`);
+  ADD KEY `compte_id` (`compte_id`),
+  ADD KEY `type_credit_id` (`type_credit_id`),
+  ADD KEY `remboursement_id` (`remboursement_id`);
 
 --
 -- Indexes for table `email`
@@ -464,9 +536,10 @@ ALTER TABLE `email`
 --
 ALTER TABLE `employe`
   ADD PRIMARY KEY (`idemploye`),
-  ADD UNIQUE KEY `type_user_id_UNIQUE` (`type_user_id`),
   ADD UNIQUE KEY `user_emp_id_UNIQUE` (`user_emp_id`),
-  ADD KEY `fk_employe_info_agence_info_idx` (`id_succursale`);
+  ADD UNIQUE KEY `code_emp` (`code_emp`),
+  ADD KEY `fk_employe_info_agence_info_idx` (`id_succursale`),
+  ADD KEY `type_user_id_UNIQUE` (`type_user_id`) USING BTREE;
 
 --
 -- Indexes for table `employe_fonction`
@@ -497,15 +570,6 @@ ALTER TABLE `remboursement`
   ADD UNIQUE KEY `idremboursement_UNIQUE` (`idremboursement`);
 
 --
--- Indexes for table `resiliation`
---
-ALTER TABLE `resiliation`
-  ADD PRIMARY KEY (`idresiliation`),
-  ADD UNIQUE KEY `idresiliation_UNIQUE` (`idresiliation`),
-  ADD KEY `fk_resiliation_proprietaire_idx` (`proprietaire_id`),
-  ADD KEY `fk_resiliation_compte_idx` (`compte_id`);
-
---
 -- Indexes for table `tarif`
 --
 ALTER TABLE `tarif`
@@ -525,10 +589,10 @@ ALTER TABLE `telephone`
 --
 ALTER TABLE `transaction`
   ADD PRIMARY KEY (`idtransaction`),
-  ADD UNIQUE KEY `idtransaction_UNIQUE` (`idtransaction`),
-  ADD KEY `fk_transaction_type_transaction_idx` (`type_transaction_id`),
-  ADD KEY `fk_transaction_compte_idx` (`compte_donneur_id`),
-  ADD KEY `fk_transaction_beneficiare_compte_idx` (`compte_beneficiaire_id`);
+  ADD KEY `type_transaction_id` (`type_transaction_id`),
+  ADD KEY `compte_donneur_id` (`compte_donneur_id`),
+  ADD KEY `compte_beneficiare_id` (`compte_beneficiare_id`),
+  ADD KEY `employer_id` (`employer_id`);
 
 --
 -- Indexes for table `types_informations`
@@ -587,7 +651,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `adresse`
 --
 ALTER TABLE `adresse`
-  MODIFY `idadresse` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idadresse` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `agence`
 --
@@ -604,45 +668,45 @@ ALTER TABLE `carte`
 ALTER TABLE `client`
   MODIFY `idclient` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `compte`
+--
+ALTER TABLE `compte`
+  MODIFY `idcompte` int(9) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `credit`
 --
 ALTER TABLE `credit`
-  MODIFY `idcredit` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `idcredit` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `email`
 --
 ALTER TABLE `email`
-  MODIFY `idemail` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idemail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `employe`
 --
 ALTER TABLE `employe`
-  MODIFY `idemploye` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idemploye` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `employe_fonction`
 --
 ALTER TABLE `employe_fonction`
-  MODIFY `idemploye_fonction` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idemploye_fonction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `fonction`
 --
 ALTER TABLE `fonction`
-  MODIFY `idfonction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idfonction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `login_hystoric`
 --
 ALTER TABLE `login_hystoric`
-  MODIFY `id_login` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_login` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `remboursement`
 --
 ALTER TABLE `remboursement`
   MODIFY `idremboursement` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `resiliation`
---
-ALTER TABLE `resiliation`
-  MODIFY `idresiliation` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tarif`
 --
@@ -652,7 +716,7 @@ ALTER TABLE `tarif`
 -- AUTO_INCREMENT for table `telephone`
 --
 ALTER TABLE `telephone`
-  MODIFY `idtelephone` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idtelephone` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `transaction`
 --
@@ -662,17 +726,17 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `types_informations`
 --
 ALTER TABLE `types_informations`
-  MODIFY `idtypes_informations` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idtypes_informations` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `type_carte`
 --
 ALTER TABLE `type_carte`
-  MODIFY `id_type_carte` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_type_carte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `type_compte`
 --
 ALTER TABLE `type_compte`
-  MODIFY `idtype_compte` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idtype_compte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `type_credit`
 --
@@ -692,7 +756,7 @@ ALTER TABLE `type_user`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- Constraints for dumped tables
 --
@@ -708,8 +772,8 @@ ALTER TABLE `adresse`
 -- Constraints for table `carte`
 --
 ALTER TABLE `carte`
-  ADD CONSTRAINT `fk_carte_compte` FOREIGN KEY (`id_compte`) REFERENCES `compte` (`idcompte`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_carte_type_carte` FOREIGN KEY (`type_carte`) REFERENCES `type_carte` (`id_type_carte`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `carte_ibfk_1` FOREIGN KEY (`id_compte`) REFERENCES `compte` (`idcompte`),
+  ADD CONSTRAINT `carte_ibfk_2` FOREIGN KEY (`type_carte`) REFERENCES `type_carte` (`id_type_carte`);
 
 --
 -- Constraints for table `client`
@@ -722,6 +786,7 @@ ALTER TABLE `client`
 -- Constraints for table `compte`
 --
 ALTER TABLE `compte`
+  ADD CONSTRAINT `compte_ibfk_1` FOREIGN KEY (`id_proprietaire`) REFERENCES `client` (`idclient`),
   ADD CONSTRAINT `fk_compte_employe` FOREIGN KEY (`id_employe`) REFERENCES `employe` (`idemploye`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_compte_type_compte` FOREIGN KEY (`type_compte_id`) REFERENCES `type_compte` (`idtype_compte`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -729,9 +794,9 @@ ALTER TABLE `compte`
 -- Constraints for table `credit`
 --
 ALTER TABLE `credit`
-  ADD CONSTRAINT `fk_credit_compte` FOREIGN KEY (`idcompte`) REFERENCES `compte` (`idcompte`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_credit_remboursement` FOREIGN KEY (`idremboursement`) REFERENCES `remboursement` (`idremboursement`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_credit_type_credit` FOREIGN KEY (`id_type_credit`) REFERENCES `type_credit` (`idtype_credit`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `credit_ibfk_1` FOREIGN KEY (`compte_id`) REFERENCES `compte` (`idcompte`),
+  ADD CONSTRAINT `credit_ibfk_2` FOREIGN KEY (`type_credit_id`) REFERENCES `type_credit` (`idtype_credit`),
+  ADD CONSTRAINT `credit_ibfk_3` FOREIGN KEY (`remboursement_id`) REFERENCES `remboursement` (`idremboursement`);
 
 --
 -- Constraints for table `email`
@@ -743,6 +808,7 @@ ALTER TABLE `email`
 -- Constraints for table `employe`
 --
 ALTER TABLE `employe`
+  ADD CONSTRAINT `employe_ibfk_1` FOREIGN KEY (`user_emp_id`) REFERENCES `user` (`iduser`),
   ADD CONSTRAINT `fk_employe_agence` FOREIGN KEY (`id_succursale`) REFERENCES `agence` (`idagence`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_employe_type_user` FOREIGN KEY (`type_user_id`) REFERENCES `type_user` (`idtype_user`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -758,14 +824,6 @@ ALTER TABLE `employe_fonction`
 --
 ALTER TABLE `login_hystoric`
   ADD CONSTRAINT `login_hystoric_ibfk_1` FOREIGN KEY (`user_login`) REFERENCES `user` (`iduser`);
-
---
--- Constraints for table `resiliation`
---
-ALTER TABLE `resiliation`
-  ADD CONSTRAINT `fk_resiliation_client` FOREIGN KEY (`proprietaire_id`) REFERENCES `client` (`idclient`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_resiliation_compte` FOREIGN KEY (`compte_id`) REFERENCES `compte` (`idcompte`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_resiliation_employe` FOREIGN KEY (`proprietaire_id`) REFERENCES `employe` (`idemploye`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `tarif`
@@ -784,9 +842,10 @@ ALTER TABLE `telephone`
 -- Constraints for table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD CONSTRAINT `fk_transaction_beneficiare_compte` FOREIGN KEY (`compte_beneficiaire_id`) REFERENCES `compte` (`idcompte`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_transaction_donneur_compte` FOREIGN KEY (`compte_donneur_id`) REFERENCES `compte` (`idcompte`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_transaction_type_transaction` FOREIGN KEY (`type_transaction_id`) REFERENCES `type_transcation` (`idtype_transcation`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`type_transaction_id`) REFERENCES `type_transcation` (`idtype_transcation`),
+  ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`compte_donneur_id`) REFERENCES `compte` (`idcompte`),
+  ADD CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`compte_beneficiare_id`) REFERENCES `compte` (`idcompte`),
+  ADD CONSTRAINT `transaction_ibfk_4` FOREIGN KEY (`employer_id`) REFERENCES `employe` (`idemploye`);
 
 --
 -- Constraints for table `user`
