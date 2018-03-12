@@ -195,7 +195,7 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-phone"></i>
-                                                                <input id="inputName" type="text"  name="nom_agence" placeholder="Nom Agence" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text"  name="nom_agence" placeholder="Nom Agence" class="form-control" maxlength="100" required/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -215,7 +215,7 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-home"></i>
-                                                                <input id="inputName" type="text" name="adresse_agence" placeholder="Adresse Agence" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text" name="adresse_agence" placeholder="Adresse Agence" class="form-control" maxlength="100" required/>
                                                             </div>
                                                         </div>
                                                         <hr />

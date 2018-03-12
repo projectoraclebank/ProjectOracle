@@ -6,7 +6,7 @@ include('../utils/connexion.php');
 mysqli_autocommit($connexion, false);
 $params = explode( "/", $_SERVER['REQUEST_URI'] );
 if(!empty($params[6])){
-    $selected_compte=$params[6];
+   $selected_compte=$params[6];
 if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($_SESSION['pseudo']) && isset($_SESSION['id_type_user'])){
     $iduser = $_SESSION['iduser'];
     /*
@@ -26,7 +26,7 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Fiche Employer | <?php echo utf8_encode($_SESSION['pseudo']);?></title>
+    <title>Fiche Client | <?php echo utf8_encode($_SESSION['pseudo']);?></title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,6 +77,7 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                     </div>
                 </div>
                 <!--END TITLE & BREADCRUMB PAGE-->
+            
                 <!--BEGIN CONTENT-->
                 <div class="page-content">
                     <div id="tab-general">
@@ -91,13 +92,13 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                             <span data-counter="" data-start="10" data-end="50" data-step="1" data-duration="0">
                                             </span>
                                             <?php 
-                                                $requete_agence="SELECT * FROM agence WHERE actif_agence=1";
+                                                $requete_agence="SELECT * FROM transaction WHERE compte_donneur_id='$selected_compte'";
                                                 $result_agence=mysqli_query($connexion, $requete_agence);
                                                 echo $count_agence=mysqli_num_rows($result_agence);
                                             ?>
                                             <span></span></h4>
                                         <p class="description">
-                                            Agence Actif</p>
+                                            Transaction OUT</p>
                                         <div class="progress progress-sm mbn">
                                             <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"
                                                 style="width: 80%;" class="progress-bar progress-bar-success">
@@ -115,18 +116,62 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                         <h4 class="value">
                                             <span>
                                             <?php 
-                                                $requete_agence="SELECT * FROM agence WHERE actif_agence=0";
+                                                $requete_agence="SELECT * FROM transaction WHERE compte_beneficiare_id='$selected_compte' ";
                                                 $result_agence=mysqli_query($connexion, $requete_agence);
                                                 echo $count_agence=mysqli_num_rows($result_agence);
                                             ?>
                                             </span><span></span></h4>
                                         <p class="description">
-                                            Agence Inactif</p>
+                                            Transaction IN</p>
                                         <div class="progress progress-sm mbn">
                                             <div role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
                                                 style="width: 60%;" class="progress-bar progress-bar-info">
                                                 <span class="sr-only">60% Complete (success)</span></div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
+                                <div class="panel income mbm">
+                                    <div class="panel-body">
+                                    <?php
+                                    $requete_c="SELECT * FROM compte INNER JOIN client ON compte.id_proprietaire = client.idclient INNER JOIN type_compte ON compte.type_compte_id = type_compte.idtype_compte WHERE idcompte='$selected_compte'";
+                                    $result_c=mysqli_query($connexion, $requete_c);
+                                    $count_c=mysqli_num_rows($result_c);
+                                    if($count_c==1){
+                                        while($data_get_c=mysqli_fetch_assoc($result_c)){
+                                            $iban = $data_get_c["iban"];
+                                            $bic = $data_get_c["bic"];
+                                            $desc_type_compte = $data_get_c["desc_type_compte"];
+                                            $plafond_semaine = $data_get_c["plafond_semaine"];
+                                            $nom_client =  utf8_encode($data_get_c["civilite_client"]." ".$data_get_c["nom_client"]." ".$data_get_c["prenom_client"]);  
+                                            $nif_client = $data_get_c["nif_client"];
+                                            $idcompte = $data_get_c["idcompte"];
+                                            $cin_client = $data_get_c["cin_client"];
+                                            $naissance_client = $data_get_c["naissance_client"];
+                                            //table client
+                                            $id_proprietaire = $data_get_c["id_proprietaire"];
+                                            //table user
+                                            $userClientID = $data_get_c["userClientID"];
+                                            $date_creation_ct = $data_get_c["date_creation_ct"];
+                                            $date_mise_a_jour = $data_get_c["date_mise_a_jour"];
+                                            $solde_compte = $data_get_c["solde_compte"];
+                                        }
+                                    }
+                                    ?>
+                                        <h3 class="description"><u><?php echo $nom_client; ?></u></h3>
+                                        <hr />
+
+                                        <p class="description">COMPTE &emsp; : &emsp;&emsp;<?php echo $idcompte." / ".$desc_type_compte; ?></p>
+                                        <p class="description">Plafond Semaine &emsp; : &emsp;&emsp;<?php echo $plafond_semaine; ?></p>
+                                        <p class="description">Solde &emsp; : &emsp;&emsp;<?php echo $solde_compte; ?></p>
+                                        <p class="description">Créé le &emsp; : &emsp;&emsp;<?php echo $date_creation_ct; ?></p>
+                                        
+                                        <hr />
+                                        <p class="description">NIF & CIN &emsp; : &emsp;&emsp;<?php echo $nif_client." / ".$cin_client; ?></p>
+                                        <p class="description">IBAN & BIC &emsp; : &emsp;&emsp;<?php echo $iban." / ".$bic; ?></p>
+                                        <hr />
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -136,55 +181,44 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="panel panel-blue">
-                                            <div class="panel-heading">Fiche</div>
+                                            <div class="panel-heading">Autres Compte</div>
                                                 <div class="panel-body">
                                                     <?php
         //debut update information Succursale     
-                                                    $ext= "php"; 
-                                                    include("update_info_agence.".$ext);          
+                                                    /*$ext= "php"; 
+                                                    include("update_info_agence.".$ext); */         
         // fin update information Succursale                                                  
                                                     ?>
                                                     <table class="table table-hover table-bordered">
                                                         <thead>
-                                                        <tr>
-                                                            <th>Code</th>
-                                                            <th>Nom</th>
-                                                            <th>Fonction</th>
-                                                            <th>Agence</th>
-                                                            <th>Modifier</th>
+                                                        <tr class="bg bg-green">
+                                                            <th>No Compte</th>
+                                                            <th>IBAN</th>
+                                                            <th>BIC</th>
+                                                            <th>SOLDE</th>
+                                                            <th>TYPE</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
                                                         <?php
-                                                        $requete_liste_agence="SELECT * FROM employe_fonction INNER JOIN employe ON employe_fonction.emp_fonc_id = employe.idemploye INNER JOIN fonction ON employe_fonction.fonction_id = fonction.idfonction INNER JOIN agence ON employe.id_succursale = agence.idagence WHERE sha1(employe.idemploye)= '$selected_compte' ORDER BY agence.idagence";
-                                                        $result_liste_agence=mysqli_query($connexion, $requete_liste_agence);
-                                                        $count_l_agence=mysqli_num_rows($result_liste_agence);
-                                                        if($count_l_agence>0){
-                                                            while($data_liste_agence=mysqli_fetch_assoc($result_liste_agence)){
-                                                                if($data_liste_agence['actif_emp'] == 0){
-                                                                    ?>
-                                                                    <tr class="warning">
-                                                                        <td><?php echo utf8_encode($data_liste_agence['code_emp']);?></td>
-                                                                        <td><?php echo utf8_encode($data_liste_agence['nom_emp']." ".$data_liste_agence['prenom_emp']);?></td>
-                                                                        <td><?php echo $data_liste_agence['titre_fonction'];?></td>
-                                                                        <td><?php echo utf8_encode($data_liste_agence['nom_agence']);?></td>
-                                                                        <td><a href="#../fiche_employer/<?php echo sha1($data_liste_agence['idemploye']);?>"><i class="icon fa fa-edit"></i><i class="fa fa-cog"></i></a></td> 
-                                                                    </tr>
-                                                                    <?php
-                                                                }else{
-                                                                    ?>
-                                                                    <tr class="success">
-                                                                        <td><?php echo utf8_encode($data_liste_agence['code_emp']);?></td>
-                                                                        <td><?php echo utf8_encode($data_liste_agence['nom_emp']." ".$data_liste_agence['prenom_emp']);?></td>
-                                                                        <td><?php echo $data_liste_agence['titre_fonction'];?></td>
-                                                                        <td><?php echo utf8_encode($data_liste_agence['nom_agence']);?></td>
-                                                                        <td><a href="#../fiche_employer/<?php echo sha1($data_liste_agence['idemploye']);?>"><i class="icon fa fa-edit"></i><i class="fa fa-cog"></i></a></td> 
-                                                                    </tr>
-                                                                    <?php
-                                                                }
+                                                        $requete_cc="SELECT * FROM compte INNER JOIN client ON compte.id_proprietaire = client.idclient INNER JOIN type_compte ON compte.type_compte_id = type_compte.idtype_compte WHERE id_proprietaire='$id_proprietaire'";
+                                                        $result_cc=mysqli_query($connexion, $requete_cc);
+                                                        $count_cc=mysqli_num_rows($result_cc);
+                                                        if($count_cc>0){
+                                                            while($data_get_c=mysqli_fetch_assoc($result_cc)){
+                                                                ?>
+                                                                <tr class="success">
+                                                                    <td><?php echo utf8_encode($data_get_c['idcompte']);?></td>
+                                                                    <td><?php echo utf8_encode($data_get_c['iban']);?></td>
+                                                                    <td><?php echo $data_get_c['bic'];?></td>
+                                                                    <td><?php echo utf8_encode(floatval($data_get_c['solde_compte']));?></td>
+                                                                    <td><?php echo utf8_encode($data_get_c['desc_type_compte']);?></td>
+                                                                    
+                                                                </tr>
+                                                                <?php  
                                                             }
-                                                        }   
-                                                    ?>
+                                                        }
+                                                        ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -192,24 +226,57 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="panel panel-blue" style="background:#FFF;">
-                                                <div class="panel-heading">Fonction</div>
+                                                <div class="panel-heading">Historique Transaction</div>
                                                     <div class="panel-body">
                                                         <table class="table table-hover table-bordered">
                                                             <thead>
-                                                            <tr>
-                                                                <th>#</th>
-                                                                <th>Username</th>
-                                                                <th>Age</th>
-                                                                <th>Status</th>
+                                                            <tr class="bg bg-green">
+                                                                <th>DONNEUR</th>
+                                                                <th>BENEFICIARE</th>
+                                                                <th>MONTANT</th>
+                                                                <th>CREATION</th>
+                                                                <th>MESSAGE</th>
+                                                                <th>INFORMATION</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>Henry</td>
-                                                                <td>23</td>
-                                                                <td><span class="label label-sm label-success">Approved</span></td>
-                                                            </tr>
+                                                            <?php
+                                                            $requete_cc="SELECT * FROM transaction WHERE compte_donneur_id='$selected_compte' OR compte_beneficiare_id='$selected_compte'";
+                                                            $result_cc=mysqli_query($connexion, $requete_cc);
+                                                            $count_cc=mysqli_num_rows($result_cc);
+                                                            if($count_cc>0){
+                                                                while($data_get_c=mysqli_fetch_assoc($result_cc)){
+                                                                    ?>
+                                                                    <tr class="success">
+                                                                        <td>
+                                                                            <?php 
+                                                                            if($selected_compte==$data_get_c['compte_donneur_id']){
+                                                                                echo "<b>".utf8_encode($data_get_c['compte_donneur_id'])."</b>";
+                                                                            }else{
+                                                                                echo "<b>".utf8_encode($data_get_c['compte_donneur_id'])."</b>";
+                                                                            }
+                                                                            ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php 
+                                                                            if($selected_compte==$data_get_c['compte_beneficiare_id']){
+                                                                                echo "<b>".utf8_encode($data_get_c['compte_beneficiare_id'])."</b>";
+                                                                            }else{
+                                                                                echo "<b>".utf8_encode($data_get_c['compte_beneficiare_id'])."</b>";
+                                                                            }
+                                                                            ?>
+                                                                        </td>
+                                                                        <td><?php echo $data_get_c['montant_transaction'];?></td>
+                                                                        <td><?php echo utf8_encode($data_get_c['date_creation']);?></td>
+                                                                        <td><?php echo utf8_encode($data_get_c['information_textuel']);?></td>
+                                                                        <td><?php echo utf8_encode($data_get_c['message_communication']);?></td>
+                                                                        
+                                                                        
+                                                                    </tr>
+                                                                    <?php  
+                                                                }
+                                                            }
+                                                            ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -222,20 +289,29 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                     <div class="panel-body">
                                                         <table class="table table-hover table-bordered">
                                                             <thead>
-                                                            <tr>
-                                                                <th>#</th>
-                                                                <th>Username</th>
-                                                                <th>Age</th>
-                                                                <th>Status</th>
+                                                            <tr class="bg bg-green">
+                                                                <th>NUMERO</th>
+                                                                <th>AJOUTER LE</th>
+                                                                <th>TYPE</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>Henry</td>
-                                                                <td>23</td>
-                                                                <td><span class="label label-sm label-success">Approved</span></td>
-                                                            </tr>
+                                                            <?php
+                                                                $requete_cc="SELECT * FROM telephone INNER JOIN types_informations ON telephone.id_type_telephone = types_informations.idtypes_informations WHERE id_proprietaire='$userClientID'";
+                                                                $result_cc=mysqli_query($connexion, $requete_cc);
+                                                                $count_cc=mysqli_num_rows($result_cc);
+                                                                if($count_cc>0){
+                                                                    while($data_get_c=mysqli_fetch_assoc($result_cc)){
+                                                                        ?>
+                                                                        <tr class="success">
+                                                                            <td><?php echo $data_get_c['numero_telephone'];?></td>
+                                                                            <td><?php echo utf8_encode($data_get_c['date_creation']);?></td>
+                                                                            <td><?php echo utf8_encode($data_get_c['description_type_infos']);?></td>
+                                                                        </tr>
+                                                                        <?php  
+                                                                    }
+                                                                }
+                                                            ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -248,20 +324,29 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                     <div class="panel-body">
                                                         <table class="table table-hover table-bordered">
                                                             <thead>
-                                                            <tr>
-                                                                <th>#</th>
-                                                                <th>Username</th>
-                                                                <th>Age</th>
-                                                                <th>Status</th>
+                                                            <tr class="bg bg-green">
+                                                                <th>ADRESSE</th>
+                                                                <th>AJOUTER LE</th>
+                                                                <th>TYPE</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>Henry</td>
-                                                                <td>23</td>
-                                                                <td><span class="label label-sm label-success">Approved</span></td>
-                                                            </tr>
+                                                            <?php
+                                                                $requete_cc="SELECT * FROM adresse INNER JOIN types_informations ON adresse.id_type_adresse = types_informations.idtypes_informations WHERE nom_proprietaire_id='$userClientID'";
+                                                                $result_cc=mysqli_query($connexion, $requete_cc);
+                                                                $count_cc=mysqli_num_rows($result_cc);
+                                                                if($count_cc>0){
+                                                                    while($data_get_c=mysqli_fetch_assoc($result_cc)){
+                                                                        ?>
+                                                                        <tr class="success">
+                                                                            <td><?php echo $data_get_c['description_adresse'];?></td>
+                                                                            <td><?php echo utf8_encode($data_get_c['date_creation']);?></td>
+                                                                            <td><?php echo utf8_encode($data_get_c['description_type_infos']);?></td>
+                                                                        </tr>
+                                                                        <?php  
+                                                                    }
+                                                                }
+                                                            ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -270,24 +355,33 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                             <!-- -->
                                             <div class="col-lg-12">
                                             <div class="panel panel-blue" style="background:#FFF;">
-                                                <div class="panel-heading">E-mail Table</div>
+                                                <div class="panel-heading">E-mail</div>
                                                     <div class="panel-body">
                                                         <table class="table table-hover table-bordered">
                                                             <thead>
-                                                            <tr>
-                                                                <th>#</th>
-                                                                <th>Username</th>
-                                                                <th>Age</th>
-                                                                <th>Status</th>
+                                                            <tr class="bg bg-green">
+                                                                <th>EMAIL</th>
+                                                                <th>AJOUTER LE</th>
+                                                                <th>TYPE</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>Henry</td>
-                                                                <td>23</td>
-                                                                <td><span class="label label-sm label-success">Approved</span></td>
-                                                            </tr>
+                                                            <?php
+                                                                $requete_cc="SELECT * FROM email INNER JOIN types_informations ON email.id_type_mail = types_informations.idtypes_informations WHERE nom_proprietaire_id='$userClientID'";
+                                                                $result_cc=mysqli_query($connexion, $requete_cc);
+                                                                $count_cc=mysqli_num_rows($result_cc);
+                                                                if($count_cc>0){
+                                                                    while($data_get_c=mysqli_fetch_assoc($result_cc)){
+                                                                        ?>
+                                                                        <tr class="success">
+                                                                            <td><?php echo $data_get_c['email_emp'];?></td>
+                                                                            <td><?php echo utf8_encode($data_get_c['date_creation']);?></td>
+                                                                            <td><?php echo utf8_encode($data_get_c['description_type_infos']);?></td>
+                                                                        </tr>
+                                                                        <?php  
+                                                                    }
+                                                                }
+                                                            ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -300,64 +394,33 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                     <div class="panel-body">
                                                         <table class="table table-hover table-bordered">
                                                             <thead>
-                                                            <tr>
-                                                                <th>#</th>
-                                                                <th>Username</th>
-                                                                <th>Age</th>
-                                                                <th>Status</th>
+                                                            <tr class="bg bg-green">
+                                                                <th>IP</th>
+                                                                <th>HEURE DE CONNEXION</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>Henry</td>
-                                                                <td>23</td>
-                                                                <td><span class="label label-sm label-success">Approved</span></td>
-                                                            </tr>
+                                                            <?php
+                                                                $requete_cc="SELECT * FROM login_hystoric WHERE user_login='$userClientID'";
+                                                                $result_cc=mysqli_query($connexion, $requete_cc);
+                                                                $count_cc=mysqli_num_rows($result_cc);
+                                                                if($count_cc>0){
+                                                                    while($data_get_c=mysqli_fetch_assoc($result_cc)){
+                                                                        ?>
+                                                                        <tr class="success">
+                                                                            <td><?php echo $data_get_c['ip_login'];?></td>
+                                                                            <td><?php echo utf8_encode($data_get_c['date_login']);?></td>
+                                                                        </tr>
+                                                                        <?php  
+                                                                    }
+                                                                }
+                                                            ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- -->
-                                        <div class="col-lg-12">
-                                        <div id="change-transitions" class="row">
-                                            <div class="col-md-4">
-                                                <div class="box-placeholder">
-                                                    <a href="../add_employer/"  class="btn btn-success btn-block">Ajouter Employer</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="box-placeholder">
-                                                    <a href="../add_agence/"  class="btn btn-success btn-block">Ajouter Agence</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="box-placeholder">
-                                                    <a href="../fonction/"  class="btn btn-success btn-block">Ajouter Fonction</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div id="change-transitions" class="row">
-                                            <div class="col-md-4">
-                                                <div class="box-placeholder">
-                                                    <a href="../employer/"  class="btn btn-info btn-block">Liste Employer</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="box-placeholder">
-                                                    <a href="../agence/"  class="btn btn-info btn-block">Liste Agence</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="box-placeholder">
-                                                    <a href="../fonction/"  class="btn btn-info btn-block">Liste Fonction</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     </div>                                
                                 </div>
                                     

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 11, 2018 at 02:10 PM
+-- Generation Time: Mar 12, 2018 at 02:42 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 7.0.13
 
@@ -42,7 +42,8 @@ CREATE TABLE `adresse` (
 INSERT INTO `adresse` (`idadresse`, `id_type_adresse`, `description_adresse`, `nom_proprietaire_id`, `date_creation`, `date_mise_a_jour`) VALUES
 (13, 1, '43, marinai 12', 29, '2018-03-08 11:33:36', '2018-03-08 11:33:36'),
 (14, 1, '43, mariani 12', 30, '2018-03-08 11:58:36', '2018-03-08 11:58:36'),
-(15, 1, '43, Mariani 12', 31, '2018-03-08 12:01:31', '2018-03-08 12:01:31');
+(15, 1, '43, Mariani 12', 31, '2018-03-08 12:01:31', '2018-03-08 12:01:31'),
+(31, 1, '32, mariani', 53, '2018-03-12 03:10:03', '2018-03-12 03:10:03');
 
 -- --------------------------------------------------------
 
@@ -74,13 +75,26 @@ INSERT INTO `agence` (`idagence`, `type_agence`, `nom_agence`, `tel_agence`, `ad
 --
 
 CREATE TABLE `carte` (
-  `idcarte` int(11) NOT NULL,
+  `idcarte` bigint(11) NOT NULL,
   `id_compte` int(11) NOT NULL,
   `code_secret` varchar(2000) NOT NULL,
   `type_carte` int(11) NOT NULL,
   `date_fabrication` date NOT NULL,
   `date_mise_circulation` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `carte`
+--
+
+INSERT INTO `carte` (`idcarte`, `id_compte`, `code_secret`, `type_carte`, `date_fabrication`, `date_mise_circulation`) VALUES
+(54460000011, 15, '1884', 1, '2018-03-12', '2018-03-21'),
+(54460000012, 19, '8379', 1, '2018-03-12', '2018-03-21'),
+(54460000013, 21, '7263', 1, '2018-03-12', '2018-03-21'),
+(54460000014, 22, '4981', 1, '2018-03-12', '2018-03-21'),
+(54460000015, 100000001, '9668', 1, '2018-03-12', '2018-03-21'),
+(54460000016, 100000002, '1435', 1, '2018-03-12', '2018-03-21'),
+(54460000017, 100000003, '6796', 1, '2018-03-12', '2018-03-21');
 
 -- --------------------------------------------------------
 
@@ -92,16 +106,23 @@ CREATE TABLE `client` (
   `idclient` int(11) NOT NULL,
   `nom_client` varchar(45) NOT NULL,
   `prenom_client` varchar(45) NOT NULL,
-  `naissance_client` int(11) NOT NULL,
+  `naissance_client` date NOT NULL,
   `nif_client` int(10) NOT NULL,
-  `cin_client` int(10) NOT NULL,
+  `cin_client` int(17) NOT NULL,
   `sexe_client` varchar(7) NOT NULL,
   `civilite_client` varchar(11) NOT NULL,
+  `userClientID` int(11) NOT NULL,
   `date_creation` datetime NOT NULL,
   `date_mise_a_jour` datetime NOT NULL,
-  `id_user_client` int(11) NOT NULL,
   `id_succursale` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `client`
+--
+
+INSERT INTO `client` (`idclient`, `nom_client`, `prenom_client`, `naissance_client`, `nif_client`, `cin_client`, `sexe_client`, `civilite_client`, `userClientID`, `date_creation`, `date_mise_a_jour`, `id_succursale`) VALUES
+(17, 'SYLVAINCE', 'Djason Irvinton ', '0000-00-00', 22748123, 2147483647, 'Homme', 'Mr.', 53, '2018-03-12 03:10:03', '2018-03-12 03:10:03', 2);
 
 -- --------------------------------------------------------
 
@@ -116,9 +137,22 @@ CREATE TABLE `compte` (
   `type_compte_id` int(11) NOT NULL,
   `id_proprietaire` int(11) NOT NULL,
   `solde_compte` double NOT NULL,
-  `date_creation` datetime NOT NULL,
+  `date_creation_ct` datetime NOT NULL,
   `id_employe` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `compte`
+--
+
+INSERT INTO `compte` (`idcompte`, `iban`, `bic`, `type_compte_id`, `id_proprietaire`, `solde_compte`, `date_creation_ct`, `id_employe`) VALUES
+(15, 'HT-00-BIC', 'BASH-HT-PP-', 1, 17, 2341, '2018-03-12 03:10:03', 17),
+(19, 'HT-00-BIC53', 'BASH-HT-PP-', 1, 17, 234, '2018-03-12 03:17:51', 17),
+(21, 'HT-00-BIC8', 'BASH-HT-PP-', 1, 17, 234, '2018-03-12 03:20:45', 17),
+(22, 'HT-00-BIC6', 'BASH-HT-PP-', 1, 17, 234, '2018-03-12 03:21:08', 17),
+(100000001, 'HT-00-BIC4', 'BASH-HT-PP-', 1, 17, 258, '2018-03-12 03:21:33', 17),
+(100000002, 'HT-00-BIC3', 'BASH-HT-PP-', 1, 17, 234, '2018-03-12 03:21:36', 17),
+(100000003, 'HT-00-BIC9', 'BASH-HT-PP-', 1, 17, 253, '2018-03-12 03:22:34', 17);
 
 -- --------------------------------------------------------
 
@@ -158,7 +192,8 @@ CREATE TABLE `email` (
 INSERT INTO `email` (`idemail`, `id_type_mail`, `nom_proprietaire_id`, `email_emp`, `date_creation`, `date_mise_a_jour`) VALUES
 (14, 29, 1, 'benoit@gmail.com', '2018-03-08 11:33:36', '2018-03-08 11:33:36'),
 (15, 30, 1, 'djason@gmail.com', '2018-03-08 11:58:36', '2018-03-08 11:58:36'),
-(16, 31, 1, 'jacqueline@gmail.com', '2018-03-08 12:01:31', '2018-03-08 12:01:31');
+(16, 31, 1, 'jacqueline@gmail.com', '2018-03-08 12:01:31', '2018-03-08 12:01:31'),
+(32, 1, 53, 'dj@mail.com', '2018-03-12 03:10:03', '2018-03-12 03:10:03');
 
 -- --------------------------------------------------------
 
@@ -267,7 +302,8 @@ INSERT INTO `login_hystoric` (`id_login`, `user_login`, `ip_login`, `date_login`
 (13, 1, '127.0.0.1', '2018-03-08 23:20:26'),
 (14, 1, '127.0.0.1', '2018-03-08 23:28:56'),
 (15, 1, '127.0.0.1', '2018-03-09 13:20:53'),
-(16, 1, '127.0.0.1', '2018-03-11 13:54:34');
+(16, 1, '127.0.0.1', '2018-03-11 13:54:34'),
+(17, 1, '127.0.0.1', '2018-03-11 15:54:26');
 
 -- --------------------------------------------------------
 
@@ -316,7 +352,8 @@ CREATE TABLE `telephone` (
 INSERT INTO `telephone` (`idtelephone`, `id_type_telephone`, `id_proprietaire`, `numero_telephone`, `date_creation`, `date_mise_a_jour`) VALUES
 (13, 1, 29, 37562575, '2018-03-08 11:33:36', '2018-03-08 11:33:36'),
 (14, 1, 30, 31281904, '2018-03-08 11:58:36', '2018-03-08 11:58:36'),
-(15, 1, 31, 34221964, '2018-03-08 12:01:31', '2018-03-08 12:01:31');
+(15, 1, 31, 34221964, '2018-03-08 12:01:31', '2018-03-08 12:01:31'),
+(31, 1, 53, 31282801, '2018-03-12 03:10:03', '2018-03-12 03:10:03');
 
 -- --------------------------------------------------------
 
@@ -326,15 +363,35 @@ INSERT INTO `telephone` (`idtelephone`, `id_type_telephone`, `id_proprietaire`, 
 
 CREATE TABLE `transaction` (
   `idtransaction` int(11) NOT NULL,
-  `type_transaction_id` int(11) NOT NULL,
   `compte_donneur_id` int(11) NOT NULL,
   `compte_beneficiare_id` int(11) NOT NULL,
+  `typeTransID` int(11) NOT NULL,
   `information_textuel` varchar(2000) NOT NULL,
   `message_communication` varchar(2000) NOT NULL,
   `date_creation` datetime NOT NULL,
   `employer_id` int(11) NOT NULL,
   `montant_transaction` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`idtransaction`, `compte_donneur_id`, `compte_beneficiare_id`, `typeTransID`, `information_textuel`, `message_communication`, `date_creation`, `employer_id`, `montant_transaction`) VALUES
+(12, 15, 15, 0, 'Transaction douverture du compte.', 'Transaction douverture du compte.', '2018-03-12 03:10:03', 17, 234),
+(13, 19, 19, 0, 'Transaction douverture du compte.', 'Transaction douverture du compte.', '2018-03-12 03:17:52', 17, 234),
+(14, 21, 21, 0, 'Transaction douverture du compte.', 'Transaction douverture du compte.', '2018-03-12 03:20:45', 17, 234),
+(15, 22, 22, 0, 'Transaction douverture du compte.', 'Transaction douverture du compte.', '2018-03-12 03:21:08', 17, 234),
+(16, 100000001, 100000001, 0, 'Transaction douverture du compte.', 'Transaction douverture du compte.', '2018-03-12 03:21:33', 17, 234),
+(17, 100000002, 100000002, 0, 'Transaction douverture du compte.', 'Transaction douverture du compte.', '2018-03-12 03:21:36', 17, 234),
+(18, 100000003, 100000003, 0, 'Transaction douverture du compte.', 'Transaction douverture du compte.', '2018-03-12 03:22:34', 17, 234),
+(27, 100000003, 100000003, 1, 'Aucun', 'Aucun', '2018-03-12 09:48:18', 17, 3),
+(28, 100000003, 100000003, 1, 'Retrait', 'Retrait', '2018-03-12 10:14:21', 17, 100),
+(29, 100000003, 100000003, 1, 'retrait', 'retrait', '2018-03-12 10:16:28', 17, 1),
+(30, 100000003, 100000003, 1, 'retrait', 'Vous avez fait un retrait de 1 sur 133 . Solde actuel: 132', '2018-03-12 10:17:23', 17, 1),
+(31, 100000003, 100000003, 1, 'transaction effectuer', 'Un depot a Ã©tÃ© effectuÃ© sur votre compte. Montant :145 . Solde Avant:132 . Solde apres: 277', '2018-03-12 10:28:59', 17, 145),
+(35, 100000003, 100000003, 3, 'aucun m', 'Vous avez fait un virement de 12 sur 277vers100000001 . Solde actuel: 265', '2018-03-12 10:52:18', 17, 12),
+(36, 100000003, 100000001, 3, 'aucun m', 'Vous avez fait un virement de 12 sur 265vers100000001 . Solde actuel: 253', '2018-03-12 10:53:17', 17, 12);
 
 -- --------------------------------------------------------
 
@@ -393,8 +450,10 @@ CREATE TABLE `type_compte` (
 --
 
 INSERT INTO `type_compte` (`idtype_compte`, `desc_type_compte`, `plafond_semaine`, `date_creation`, `date_mise_a_jour`) VALUES
-(1, 'COURANT', '50000', '2018-03-09 00:00:00', '2018-03-09 00:00:00'),
-(2, 'EPARGNE', '50000', '2018-03-09 00:00:00', '2018-03-09 00:00:00');
+(1, 'COURANT GDES', '50000', '2018-03-09 00:00:00', '2018-03-09 00:00:00'),
+(2, 'EPARGNE GDES', '50000', '2018-03-09 00:00:00', '2018-03-09 00:00:00'),
+(3, 'COURANT DOLLARS', '10000', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'EPARGNE', '10000', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -419,6 +478,15 @@ CREATE TABLE `type_transcation` (
   `idtype_transcation` int(11) NOT NULL,
   `description_type_transaction` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `type_transcation`
+--
+
+INSERT INTO `type_transcation` (`idtype_transcation`, `description_type_transaction`) VALUES
+(1, 'DEPOT'),
+(2, 'RETRAIT'),
+(3, 'VIREMENT');
 
 -- --------------------------------------------------------
 
@@ -466,7 +534,8 @@ INSERT INTO `user` (`iduser`, `id_type_user`, `pseudo`, `password`, `actif_user`
 (1, 1, 'admin', '8cb2237d0679ca88db6464eac60da96345513964', 1, '2018-03-03 04:49:00', '2018-03-03 04:49:00'),
 (29, 2, 'ingbenoit', '8cb2237d0679ca88db6464eac60da96345513964', 1, '2018-03-08 11:33:36', '2018-03-08 11:33:36'),
 (30, 2, 'ingdjason', '8cb2237d0679ca88db6464eac60da96345513964', 1, '2018-03-08 11:58:36', '2018-03-08 11:58:36'),
-(31, 2, 'jacqueline', '8cb2237d0679ca88db6464eac60da96345513964', 1, '2018-03-08 12:01:31', '2018-03-08 12:01:31');
+(31, 2, 'jacqueline', '8cb2237d0679ca88db6464eac60da96345513964', 1, '2018-03-08 12:01:31', '2018-03-08 12:01:31'),
+(53, 3, 'clingdjason', '12345', 1, '2018-03-12 03:10:03', '2018-03-12 03:10:03');
 
 --
 -- Indexes for dumped tables
@@ -500,8 +569,8 @@ ALTER TABLE `carte`
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`idclient`),
-  ADD UNIQUE KEY `id_user_client_UNIQUE` (`id_user_client`),
-  ADD KEY `fk_client_agence_idx` (`id_succursale`);
+  ADD UNIQUE KEY `userClientID` (`userClientID`),
+  ADD KEY `id_succursale` (`id_succursale`);
 
 --
 -- Indexes for table `compte`
@@ -589,7 +658,6 @@ ALTER TABLE `telephone`
 --
 ALTER TABLE `transaction`
   ADD PRIMARY KEY (`idtransaction`),
-  ADD KEY `type_transaction_id` (`type_transaction_id`),
   ADD KEY `compte_donneur_id` (`compte_donneur_id`),
   ADD KEY `compte_beneficiare_id` (`compte_beneficiare_id`),
   ADD KEY `employer_id` (`employer_id`);
@@ -651,7 +719,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `adresse`
 --
 ALTER TABLE `adresse`
-  MODIFY `idadresse` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idadresse` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `agence`
 --
@@ -661,17 +729,17 @@ ALTER TABLE `agence`
 -- AUTO_INCREMENT for table `carte`
 --
 ALTER TABLE `carte`
-  MODIFY `idcarte` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idcarte` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54460000018;
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `idclient` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idclient` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `compte`
 --
 ALTER TABLE `compte`
-  MODIFY `idcompte` int(9) NOT NULL AUTO_INCREMENT;
+  MODIFY `idcompte` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100000004;
 --
 -- AUTO_INCREMENT for table `credit`
 --
@@ -681,7 +749,7 @@ ALTER TABLE `credit`
 -- AUTO_INCREMENT for table `email`
 --
 ALTER TABLE `email`
-  MODIFY `idemail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idemail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `employe`
 --
@@ -701,7 +769,7 @@ ALTER TABLE `fonction`
 -- AUTO_INCREMENT for table `login_hystoric`
 --
 ALTER TABLE `login_hystoric`
-  MODIFY `id_login` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_login` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `remboursement`
 --
@@ -716,12 +784,12 @@ ALTER TABLE `tarif`
 -- AUTO_INCREMENT for table `telephone`
 --
 ALTER TABLE `telephone`
-  MODIFY `idtelephone` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idtelephone` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `idtransaction` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idtransaction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `types_informations`
 --
@@ -736,7 +804,7 @@ ALTER TABLE `type_carte`
 -- AUTO_INCREMENT for table `type_compte`
 --
 ALTER TABLE `type_compte`
-  MODIFY `idtype_compte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idtype_compte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `type_credit`
 --
@@ -746,7 +814,7 @@ ALTER TABLE `type_credit`
 -- AUTO_INCREMENT for table `type_transcation`
 --
 ALTER TABLE `type_transcation`
-  MODIFY `idtype_transcation` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idtype_transcation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `type_user`
 --
@@ -756,7 +824,7 @@ ALTER TABLE `type_user`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 --
 -- Constraints for dumped tables
 --
@@ -779,8 +847,8 @@ ALTER TABLE `carte`
 -- Constraints for table `client`
 --
 ALTER TABLE `client`
-  ADD CONSTRAINT `fk_client_agence` FOREIGN KEY (`id_succursale`) REFERENCES `agence` (`idagence`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_client_type_user` FOREIGN KEY (`id_user_client`) REFERENCES `type_user` (`idtype_user`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `client_ibfk_1` FOREIGN KEY (`userClientID`) REFERENCES `user` (`iduser`),
+  ADD CONSTRAINT `client_ibfk_2` FOREIGN KEY (`id_succursale`) REFERENCES `agence` (`idagence`);
 
 --
 -- Constraints for table `compte`
@@ -842,7 +910,6 @@ ALTER TABLE `telephone`
 -- Constraints for table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`type_transaction_id`) REFERENCES `type_transcation` (`idtype_transcation`),
   ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`compte_donneur_id`) REFERENCES `compte` (`idcompte`),
   ADD CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`compte_beneficiare_id`) REFERENCES `compte` (`idcompte`),
   ADD CONSTRAINT `transaction_ibfk_4` FOREIGN KEY (`employer_id`) REFERENCES `employe` (`idemploye`);

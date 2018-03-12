@@ -32,14 +32,14 @@
                     <?php 
                     if (preg_match("/client/i",$uri)){
                         ?>
-                    <li class="active"><a href="../client/"><i class="fa fa-desktop fa-fw">
+                    <li class="active"><a href="#../client/"><i class="fa fa-desktop fa-fw">
                         <div class="icon-bg bg-pink"></div>
                     </i><span class="menu-title">Client</span></a>
                     </li>
                         <?php
                     }else{
                         ?>
-                    <li ><a href="../client/"><i class="fa fa-desktop fa-fw">
+                    <li ><a href="#../client/"><i class="fa fa-desktop fa-fw">
                         <div class="icon-bg bg-pink"></div>
                     </i><span class="menu-title">Client</span></a>
                     </li>
@@ -49,14 +49,14 @@
                     <?php 
                     if (preg_match("/compte/i",$uri)){
                         ?>
-                    <li class="active"><a href="../compte/"><i class="fa fa-desktop fa-fw">
+                    <li class="active"><a href="#../compte/"><i class="fa fa-desktop fa-fw">
                         <div class="icon-bg bg-pink"></div>
                     </i><span class="menu-title">Compte</span></a>
                     </li>
                         <?php
                     }else{
                         ?>
-                    <li ><a href="../compte/"><i class="fa fa-desktop fa-fw">
+                    <li ><a href="#../compte/"><i class="fa fa-desktop fa-fw">
                         <div class="icon-bg bg-pink"></div>
                     </i><span class="menu-title">Compte</span></a>
                     </li>

@@ -258,25 +258,25 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-user"></i>
-                                                                <input id="inputName" type="text"  name="nom_employer" placeholder="Nom Employer" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text"  name="nom_employer" placeholder="Nom Employer" class="form-control" maxlength="100" required/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-user"></i>
-                                                                <input id="inputName" type="text"  name="prenom_employer" placeholder="Prenom Employer" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text"  name="prenom_employer" placeholder="Prenom Employer" class="form-control" maxlength="100" required/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-edit"></i>
-                                                                <input id="inputName" type="text"  name="cin_employer" placeholder="CIN Employer" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text"  name="cin_employer" placeholder="CIN Employer" class="form-control" maxlength="100" required/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-edit"></i>
-                                                                <input id="inputName" type="text"  name="nif_employer" placeholder="NIF Employer" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text"  name="nif_employer" placeholder="NIF Employer" class="form-control" maxlength="100" required/>
                                                             </div>
                                                         </div> 
                                                         <div class="form-group">
@@ -330,7 +330,7 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-calendar"></i>
-                                                                <input id="inputName" type="date"  name="date_naissance_emp" placeholder="Date de Naissance (1990-01-01)" class="form-control" pattern="\d{4}[\-]\d{2}[\-]\d{2}" minlenght="10" maxlenght="10" max="2017-01-01" required/>
+                                                                <input id="inputName" type="date"  name="date_naissance_emp" placeholder="Date de Naissance (1990-01-01)" class="form-control" pattern="\d{4}[\-]\d{2}[\-]\d{2}" minlenght="10" maxlength="10" max="2017-01-01" required/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -363,13 +363,13 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-home"></i>
-                                                                <input id="inputName" type="text" name="adresse_prin_emp" placeholder="Adresse Principale employer" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text" name="adresse_prin_emp" placeholder="Adresse Principale employer" class="form-control" maxlength="100" required/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-home"></i>
-                                                                <input id="inputName" type="text" name="adresse_sec_emp" placeholder="Adresse PrincipaleSecondaire employer" class="form-control" maxlenght="100" />
+                                                                <input id="inputName" type="text" name="adresse_sec_emp" placeholder="Adresse PrincipaleSecondaire employer" class="form-control" maxlength="100" />
                                                             </div>
                                                         </div>
                                                         <hr />

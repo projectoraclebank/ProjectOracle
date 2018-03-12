@@ -109,6 +109,15 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                             $id_succursale = $data_get_e["id_succursale"];
                         }
                     }
+
+                    $requete_tr="SELECT * FROM type_transcation WHERE description_type_transaction = 'DEPOT'";
+                    $result_tr=mysqli_query($connexion, $requete_tr);
+                    $count_tr=mysqli_num_rows($result_tr);
+                    if($count_tr>0){
+                        while($data_get_tr=mysqli_fetch_assoc($result_tr)){
+                            $type_transcation = $data_get_tr["description_type_transaction"];
+                        }
+                    }
                 ?>
                 <!--BEGIN CONTENT-->
                 <div class="page-content">
@@ -151,25 +160,25 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-user"></i>
-                                                                <input id="inputName" type="text"  name="nom_client" placeholder="Nom client" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text"  name="nom_client" placeholder="Nom client" class="form-control" maxlength="100" required/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-user"></i>
-                                                                <input id="inputName" type="text"  name="prenom_client" placeholder="Prenom client" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text"  name="prenom_client" placeholder="Prenom client" class="form-control" maxlength="100" required/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-edit"></i>
-                                                                <input id="inputName" type="text"  name="cin_client" placeholder="CIN client" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text"  name="cin_client" placeholder="CIN client" class="form-control" maxlength="17" pattern="\d{17}" required/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-edit"></i>
-                                                                <input id="inputName" type="text"  name="nif_client" placeholder="NIF client" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text"  name="nif_client" placeholder="NIF client" class="form-control" pattern="\d{10}" maxlength="10" required/>
                                                             </div>
                                                         </div> 
                                                         <div class="form-group">
@@ -191,7 +200,7 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-calendar"></i>
-                                                                <input id="inputName" type="date"  name="date_naissance_client" placeholder="Date de Naissance (1990-01-01)" class="form-control" pattern="\d{4}[\-]\d{2}[\-]\d{2}" minlenght="10" maxlenght="10" max="2017-01-01" required/>
+                                                                <input id="inputName" type="date"  name="date_naissance_client" placeholder="Date de Naissance (1990-01-01)" class="form-control" pattern="\d{4}[\-]\d{2}[\-]\d{2}" minlenght="10" maxlength="10" max="2017-01-01" required/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -224,13 +233,13 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-home"></i>
-                                                                <input id="inputName" type="text" name="adresse_prin_client" placeholder="Adresse Principale client" class="form-control" maxlenght="100" required/>
+                                                                <input id="inputName" type="text" name="adresse_prin_client" placeholder="Adresse Principale client" class="form-control" maxlength="100" required/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-icon right">
                                                                 <i class="fa fa-home"></i>
-                                                                <input id="inputName" type="text" name="adresse_sec_client" placeholder="Adresse PrincipaleSecondaire client" class="form-control" maxlenght="100" />
+                                                                <input id="inputName" type="text" name="adresse_sec_client" placeholder="Adresse PrincipaleSecondaire client" class="form-control" maxlength="100" />
                                                             </div>
                                                         </div>
                                                         <hr />
@@ -241,17 +250,54 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                                 <input id="inputName" type="text" name="montant_depot_compte" placeholder="125.00" class="form-control" min="125" />
                                                             </div>
                                                         </div>
-                                                        <legend>Compte de Connexion</legend>
-                                                        <div class="form-group">
-                                                            <div class="input-icon right">
-                                                                <i class="fa fa-user"></i>
-                                                                <input id="inputName" type="text"  name="user_client" placeholder="Nom utilisateur client" class="form-control" required/>
+                                                        <legend>Type Compte Et Carte</legend>
+                                                        <div class="box-placeholder">
+                                                            <div class="form-group box-placeholder">
+                                                                <select name="type_compte"class="form-control">
+                                                                <?php
+                                                                    $requete_get_agence="SELECT * FROM type_compte";
+                                                                    $result_get_agence=mysqli_query($connexion, $requete_get_agence);
+                                                                    $count_get_agence=mysqli_num_rows($result_get_agence);
+                                                                    if($count_get_agence>0){
+                                                                        while($data_get_agence=mysqli_fetch_assoc($result_get_agence)){
+                                                                            ?>
+                                                                        <option value="<?php  echo $data_get_agence['idtype_compte']?>"> <?php  echo $data_get_agence["desc_type_compte"]?> </option>
+                                                                            <?php
+                                                                        }
+                                                                    }
+                                                                ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group box-placeholder">
+                                                                <select name="type_carte"class="form-control">
+                                                                <?php
+                                                                    $requete_get_agence="SELECT * FROM type_carte";
+                                                                    $result_get_agence=mysqli_query($connexion, $requete_get_agence);
+                                                                    $count_get_agence=mysqli_num_rows($result_get_agence);
+                                                                    if($count_get_agence>0){
+                                                                        while($data_get_agence=mysqli_fetch_assoc($result_get_agence)){
+                                                                            ?>
+                                                                        <option value="<?php  echo $data_get_agence['id_type_carte']?>"> <?php  echo $data_get_agence["description_type_carte"]?> </option>
+                                                                            <?php
+                                                                        }
+                                                                    }
+                                                                ?>
+                                                                </select>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <div class="input-icon right">
-                                                                <i class="fa fa-key"></i>
-                                                                <input id="inputName" type="text"  name="password_client" placeholder="Mot de passe client" class="form-control" required/>
+                                                        <legend>Compte de Connexion</legend>
+                                                        <div class="box-placeholder">
+                                                            <div class="form-group">
+                                                                <div class="input-icon right">
+                                                                    <i class="fa fa-user"></i>
+                                                                    <input id="inputName" type="text"  name="user_client" placeholder="Nom utilisateur client" class="form-control" required/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="input-icon right">
+                                                                    <i class="fa fa-key"></i>
+                                                                    <input id="inputName" type="text"  name="password_client" placeholder="Mot de passe client" class="form-control" required/>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <hr />
@@ -261,7 +307,7 @@ if(isset($_SESSION['ticket_connexion']) && isset($_SESSION['iduser']) && isset($
                                                     
                                                             ?>
                                                             <div class="form-actions text-center pal">
-                                                                <button type="submit" name="save_employer" class="btn btn-primary">
+                                                                <button type="submit" name="save_compte" class="btn btn-primary">
                                                                     Enregistrer
                                                                 </button>
                                                             </div>
